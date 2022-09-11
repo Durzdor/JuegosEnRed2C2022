@@ -4,23 +4,12 @@ using UnityEngine;
 
 public class FrogModel : MonoBehaviour
 {
+    Vector3 centerPoint;
+    Vector3 startRC;
+    Vector3 endRC;
     public Vector3 endPos;
-    [SerializeField] float journeyTime = 1f;
 
-    public float startTime;
-    public float fracComplete;
-    public Vector3 centerPoint;
-    public Vector3 startRC;
-    public Vector3 endRC;
-
-    // El Movimiento funciona perfecto, pero cuando mas cerca del 1 en fracComplete este mas instantaneo es el salto, no pude hacer q eso no pase
-    void Update()
-    {
-        fracComplete = (Time.time - startTime) / journeyTime;
-        if (fracComplete >= 1)
-            startTime = Time.time;
-    }
-    public void Move()
+    public void Move(float fracComplete)
     {
         transform.position = Vector3.Slerp(startRC, endRC, fracComplete);
         transform.position += centerPoint;
@@ -32,5 +21,19 @@ public class FrogModel : MonoBehaviour
         centerPoint -= Vector3.up;
         startRC = transform.position - centerPoint;
         endRC = endPos - centerPoint;
+    }
+    public void RotateRight(bool isRotating)
+    {
+        if (isRotating)
+        {
+            transform.Rotate(new Vector3(0, 90, 0));
+        }
+    }
+    public void RotateLeft(bool isRotating)
+    {
+        if (isRotating)
+        {
+            transform.Rotate(new Vector3(0, -90, 0));
+        }
     }
 }

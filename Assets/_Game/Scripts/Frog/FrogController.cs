@@ -7,24 +7,32 @@ public class FrogController : MonoBehaviour
     FrogModel model;
     FrogViewer view;
     bool moving = false;
-    public float time;
+    float jumpTime;
+    [SerializeField] float jumpSpeedRatio = .05f;
 
     void Awake()
     {
         model = GetComponent<FrogModel>();
-        model.startTime = Time.time;
     }
     void Update()
     {
-        time = Time.time;
         if (transform.position == model.endPos && moving)
+        {
             moving = false;
+            jumpTime = 0;
+        }
         if (Input.GetKeyDown(KeyCode.Space) && !moving)
         {
             model.GetCenter();
             moving = true;
         }
+        model.RotateRight(Input.GetKeyDown(KeyCode.D));
+        model.RotateLeft(Input.GetKeyDown(KeyCode.A));
+
         if (moving)
-            model.Move();
+        {
+            jumpTime += jumpSpeedRatio;
+            model.Move(jumpTime);
+        }
     }
 }
