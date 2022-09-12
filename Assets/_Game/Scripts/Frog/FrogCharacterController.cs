@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FrogController : MonoBehaviour
+public class FrogCharacterController : MonoBehaviour
 {
-    FrogModel model;
-    FrogViewer view;
+    FrogCharacterModel model;
+    FrogCharacterViewer view;
     bool moving = false;
     float jumpTime;
     [SerializeField] float jumpSpeedRatio = .05f;
 
     void Awake()
     {
-        model = GetComponent<FrogModel>();
+        model = GetComponent<FrogCharacterModel>();
     }
     void Update()
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FrogModel : MonoBehaviour
+public class FrogCharacterModel : MonoBehaviour
 {
     Vector3 centerPoint;
     Vector3 startRC;
