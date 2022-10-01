@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPun
 {
-    [SerializeField] Instantiator instanceManager;
+    Instantiator instanceManager;
 
     static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviourPun
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+
+        instanceManager = GameObject.Find("Instantiator").GetComponent<Instantiator>();
     }
     void Start()
     {
