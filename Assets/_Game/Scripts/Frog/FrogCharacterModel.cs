@@ -15,32 +15,6 @@ public class FrogCharacterModel : MonoBehaviourPun
         transform.position = Vector3.Slerp(startRC, endRC, fracComplete);
         transform.position += centerPoint;
     }
-    public void IdleMove(Transform platformTransform, PlatformMovement mov)
-    {
-        switch (mov)
-        {
-            case PlatformMovement.Horizontal:
-                Debug.Log($"HPos T {transform.position}");
-                transform.position += new Vector3(platformTransform.position.x, 0, 0);
-                Debug.Log($"HPos {new Vector3(platformTransform.position.x, 0, 0)}");
-                Debug.Log($"HPos T {transform.position}");
-                break;
-            case PlatformMovement.Vertical:
-                Debug.Log($"VPos T {transform.position}");
-                transform.position += new Vector3(0, platformTransform.position.y, 0);
-                Debug.Log($"VPos {new Vector3(0, platformTransform.position.y, 0)}");
-                Debug.Log($"VPos T {transform.position}");
-                break;
-            case PlatformMovement.Foward:
-                Debug.Log($"ZPos T {transform.position}");
-                transform.position += new Vector3(0, 0, platformTransform.position.z);
-                Debug.Log($"ZPos {new Vector3(0, 0, platformTransform.position.z)}");
-                Debug.Log($"ZPos T {transform.position}");
-                break;
-            default:
-                break;
-        }
-    }
     public void GetCenter()
     {
         endPos = transform.position + transform.forward * 1.5f;

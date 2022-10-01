@@ -9,8 +9,6 @@ public class FrogCharacterController : MonoBehaviourPun
     FrogCharacterViewer view;
     bool moving = false;
     float jumpTime;
-    GameObject platformStanding;
-    PlatformMovement platformMovement;
     [SerializeField] float jumpSpeedRatio = .05f;
 
     void Awake()
@@ -40,20 +38,12 @@ public class FrogCharacterController : MonoBehaviourPun
             jumpTime += jumpSpeedRatio;
             model.JumpMove(jumpTime);
         }
-        else
-        {
-            //if (platformStanding)
-                //model.IdleMove(platformStanding.transform, platformMovement);
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "platform")
         {
-            //platformStanding = collision.gameObject;
-            //platformMovement = collision.gameObject.GetComponent<MovingPlatformController>().movement;
-            //Debug.Log($"movement type {platformMovement}");
             transform.parent = collision.transform;
             photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, false);
         }
@@ -65,7 +55,6 @@ public class FrogCharacterController : MonoBehaviourPun
         {
             transform.parent = null;
             photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, true);
-            //platformStanding = null;
         }
     }
 }

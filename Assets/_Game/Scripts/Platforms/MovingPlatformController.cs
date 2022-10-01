@@ -5,13 +5,13 @@ using Photon.Pun;
 
 public class MovingPlatformController : MonoBehaviourPun
 {
-    Vector3 startPos;
     float moveTime;
     bool wait;
     float waitTimeCount = 0;
     [SerializeField] bool waitOnEnd;
     [SerializeField] float waitTime;
     [SerializeField] float moveSpeedRatio = .003f;
+    [SerializeField] Vector3 startPos;
     [SerializeField] Vector3 endPos;
     [SerializeField] PlatformType type;
     public PlatformMovement movement;
@@ -20,6 +20,7 @@ public class MovingPlatformController : MonoBehaviourPun
     {
         if (!photonView.IsMine)
             Destroy(this);
+
         startPos = transform.position;
         switch (movement)
         {
