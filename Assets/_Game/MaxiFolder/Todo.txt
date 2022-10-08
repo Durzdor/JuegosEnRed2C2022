@@ -1,0 +1,18 @@
+TODO
+
+Hud 
+-Timer
+-Lista jugadores -> Tabla de posiciones (quien esta mas cerca del final)
+
+Menu/lobby
+- Conecta y genera lobby ( que pasa cuando entra tarde,asignar cosas)
+- Colores ranas
+- Esperar que entren minimo 3 (master client boton para empezar) y si no auto start cuando llena
+- Que pasa cuando se desconecta alguien
+
+Gameplay
+- Cuando termina el tiempo el que esta mas lejos gana
+- Si alguien llega al final gana
+- Pierden todos los demas
+- Cocodrilo con impulse (rigidbody impulse synchro)
+- Respawn

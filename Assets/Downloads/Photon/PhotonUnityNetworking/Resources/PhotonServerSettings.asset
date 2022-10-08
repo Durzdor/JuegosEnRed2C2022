@@ -41,6 +41,14 @@ MonoBehaviour:
   - RespawnSpaceship
   - UpdatePosition
   - UpdateParent
+  - SetupNames
+  - UpdateNames
+  - StartGameCheck
+  - UpdateValues
+  - LoadLevel
+  - UpdateTimer
+  - UpdateGameObjectActive
+  - UpdateTimerActive
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
