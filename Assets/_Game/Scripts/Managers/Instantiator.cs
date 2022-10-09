@@ -1,11 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+
 public class Instantiator : MonoBehaviour
 {
-    [SerializeField] Transform player1SpawnPoint;
-    [SerializeField] Transform player2SpawnPoint;
-    [SerializeField] Transform player3SpawnPoint;
-    [SerializeField] Transform player4SpawnPoint;
+    [SerializeField] Transform[] playersSpawnPoints;
+    [SerializeField] List<Transform> alligatorsSpawnPoints;
     [SerializeField] GameObject cameraPrefab;
 
     public void SpawnPlayer(int player)
@@ -13,34 +13,29 @@ public class Instantiator : MonoBehaviour
         GameObject playerObject;
         GameObject playerCamera;
 
-        switch (player)
+        playerObject = PhotonNetwork.Instantiate("PlayerObject", playersSpawnPoints[player - 1].position, Quaternion.identity);
+        playerCamera = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
+        playerCamera.GetComponent<CameraController>().SetTarget(playerObject.transform);
+    }
+    public void SpawnAlligators(int alligatorsQuantity)
+    {
+        if (alligatorsQuantity <= 0) return;
+        for (int i = 0; i < alligatorsQuantity; i++)
         {
-            case 1:
-                playerObject = PhotonNetwork.Instantiate("PlayerObject", player1SpawnPoint.position, Quaternion.identity);
-                playerCamera = GameObject.Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
-                playerCamera.GetComponent<CameraController>().SetTarget(playerObject.transform);
-                break;
-            case 2:
-                playerObject = PhotonNetwork.Instantiate("PlayerObject", player2SpawnPoint.position, Quaternion.identity);
-                playerCamera = GameObject.Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
-                playerCamera.GetComponent<CameraController>().SetTarget(playerObject.transform);
-                break;
-            case 3:
-                playerObject = PhotonNetwork.Instantiate("PlayerObject", player3SpawnPoint.position, Quaternion.identity);
-                playerCamera = GameObject.Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
-                playerCamera.GetComponent<CameraController>().SetTarget(playerObject.transform);
-                break;
-            case 4:
-                playerObject = PhotonNetwork.Instantiate("PlayerObject", player4SpawnPoint.position, Quaternion.identity);
-                playerCamera = GameObject.Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
-                playerCamera.GetComponent<CameraController>().SetTarget(playerObject.transform);
-                break;
-            default:
-                break;
+            int index = Random.Range(0, alligatorsSpawnPoints.Count);
+            Transform sp = alligatorsSpawnPoints[index];
+
+            PhotonNetwork.Instantiate("AligatorObject", sp.position, Quaternion.identity);
+
+            alligatorsSpawnPoints.RemoveAt(index);
         }
     }
     public void CustomSpawn(string prefabname, Vector3 spawnPosition, Vector3 rotation)
     {
         PhotonNetwork.Instantiate(prefabname, spawnPosition, rotation == Vector3.zero ? Quaternion.identity : Quaternion.Euler(rotation));
+    }
+    public Vector3 GetPlayerSpawnPoint(int player)
+    {
+        return playersSpawnPoints[player - 1].position;
     }
 }

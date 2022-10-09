@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 54165892026349505}
   - component: {fileID: 54165892026349504}
   - component: {fileID: 54165892026349507}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RightEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 54165892439041559}
   - component: {fileID: 54165892439041558}
   - component: {fileID: 54165892439041553}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LeftEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 54165893813302927}
   - component: {fileID: 54165893813302926}
   - component: {fileID: 54165893813302921}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PlayerObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 54165894106196767}
   - component: {fileID: 54165894106196765}
   - component: {fileID: 54165894106196764}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Frog
   m_TagString: Untagged
   m_Icon: {fileID: 0}

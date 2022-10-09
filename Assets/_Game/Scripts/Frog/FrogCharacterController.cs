@@ -42,16 +42,27 @@ public class FrogCharacterController : MonoBehaviourPun
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "platform")
+        switch (collision.gameObject.layer)
         {
-            transform.parent = collision.transform;
-            photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, false);
+            case (int)AllLayers.Platform:
+                transform.parent = collision.transform;
+                photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, false);
+                break;
+            case (int)AllLayers.Alligator:
+            //case (int)AllLayers.Water:
+                transform.position = GameManager.Instance.RespawnPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
+                break;
+            case (int)AllLayers.FinishLine:
+                GameManager.Instance.GotFinishLine(PhotonNetwork.LocalPlayer.ActorNumber);
+                break;
+            default:
+                break;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "platform")
+        if (collision.gameObject.layer == (int)AllLayers.Platform)
         {
             transform.parent = null;
             photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, true);
