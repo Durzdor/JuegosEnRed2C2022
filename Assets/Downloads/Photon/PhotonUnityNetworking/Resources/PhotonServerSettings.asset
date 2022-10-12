@@ -42,6 +42,13 @@ MonoBehaviour:
   - UpdatePosition
   - UpdateParent
   - PlayerFinish
+  - EndScreenPopUp
+  - LoadLevel
+  - StartGameCheck
+  - UpdateTableVisibility
+  - UpdateTimer
+  - UpdateTimerActive
+  - UpdateValues
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

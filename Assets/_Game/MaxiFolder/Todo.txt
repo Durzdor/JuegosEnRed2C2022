@@ -23,3 +23,10 @@ Si se pone netmanager en la escena de juego sacar las cosas que hace en Start
 No se puede empezar la partida si ya esta en juego
 
 - actualizacion de personajes en las tablas/guardar referencias
+
+- sacar poder caminar por agua Frogcharactercontroller
+- velocidad de mov de ranas
+- cerrar sala cuando termina el game photonnetwork.currentroom.isopen = false
+- checkear que no este el mismo nombre
+
+
