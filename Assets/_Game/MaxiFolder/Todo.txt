@@ -16,3 +16,10 @@ Gameplay
 - Pierden todos los demas
 - Cocodrilo con impulse (rigidbody impulse synchro)
 - Respawn
+
+Notes
+
+Si se pone netmanager en la escena de juego sacar las cosas que hace en Start
+No se puede empezar la partida si ya esta en juego
+
+- actualizacion de personajes en las tablas/guardar referencias

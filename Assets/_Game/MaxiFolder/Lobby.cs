@@ -18,7 +18,7 @@ public class Lobby : MonoBehaviour
 
     private PhotonView _photonView;
     private const int MIN_REQUIRED_PLAYERS = 3;
-    private const int AUTO_START_TIMER = 30;
+    private const int AUTO_START_TIMER = 5;
 
     private void Awake()
     {
