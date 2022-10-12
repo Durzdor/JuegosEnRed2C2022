@@ -18,12 +18,7 @@ public class NetManager : MonoBehaviourPunCallbacks
     public event Action OnRoomJoinedSuccessfully;
     public event Action OnRoomLeftSuccessfully;
 
-    private void Start()
-    {
-        PhotonNetwork.ConnectUsingSettings();
-        button.interactable = false;
-        status.text = "Connecting to Master...";
-    }
+    private RoomOptions _roomOptions;
 
     public void Connect()
     {
@@ -34,16 +29,17 @@ public class NetManager : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(maxPlayersCount.text) || string.IsNullOrWhiteSpace(maxPlayersCount.text))
             return;
 
+        PhotonNetwork.ConnectUsingSettings();
         button.interactable = false;
+        status.text = "Connecting to Master...";
         PhotonNetwork.NickName = nickname.text;
 
-        var options = new RoomOptions
+        _roomOptions = new RoomOptions
         {
             MaxPlayers = byte.Parse(maxPlayersCount.text),
             IsOpen = true,
             IsVisible = true
         };
-        PhotonNetwork.JoinOrCreateRoom(roomName.text, options, TypedLobby.Default);
     }
 
     public override void OnConnectedToMaster()
@@ -54,9 +50,10 @@ public class NetManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        button.interactable = true;
         status.text = "Connected to Lobby.";
+        PhotonNetwork.JoinOrCreateRoom(roomName.text, _roomOptions, TypedLobby.Default);
     }
+
 
     public override void OnCreatedRoom()
     {
@@ -72,6 +69,7 @@ public class NetManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         status.text = "Connection Failed.";
+        button.interactable = true;
     }
 
     public override void OnJoinedRoom()
@@ -84,8 +82,8 @@ public class NetManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        status.text = "Join Room failed.";
         button.interactable = true;
+        PhotonNetwork.Disconnect();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

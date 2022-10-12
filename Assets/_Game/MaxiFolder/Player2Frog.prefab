@@ -790,7 +790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9054133309356439539}
   m_Layer: 0
-  m_Name: FrogPink
+  m_Name: Player2Frog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

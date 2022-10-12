@@ -1,32 +1,32 @@
 TODO
 
-Hud 
--Timer
--Lista jugadores -> Tabla de posiciones (quien esta mas cerca del final)
-
-Menu/lobby
-- Conecta y genera lobby ( que pasa cuando entra tarde,asignar cosas)
-- Colores ranas
-- Esperar que entren minimo 3 (master client boton para empezar) y si no auto start cuando llena
+Maxi
 - Que pasa cuando se desconecta alguien
-
-Gameplay
-- Cuando termina el tiempo el que esta mas lejos gana
-- Si alguien llega al final gana
-- Pierden todos los demas
-- Cocodrilo con impulse (rigidbody impulse synchro)
-- Respawn
-
-Notes
-
-Si se pone netmanager en la escena de juego sacar las cosas que hace en Start
-No se puede empezar la partida si ya esta en juego
-
 - actualizacion de personajes en las tablas/guardar referencias
-
-- sacar poder caminar por agua Frogcharactercontroller
-- velocidad de mov de ranas
-- cerrar sala cuando termina el game photonnetwork.currentroom.isopen = false
+- mergear lobby con gameplay
+- cambiar prefabs para que sean del fbx y no .blend
 - checkear que no este el mismo nombre
+- sacar diferencias de posiciones (no es necesario editarlas)
+si hay algun problema con canvas asignarle la camara amano - lista .find
+
+Fer
+- Cuando termina el tiempo el que esta mas lejos gana
+- Checkear distancias en update para poder mostrarlo en la tabla de pos
+- sacar poder caminar por agua Frogcharactercontroller
+- agregar prefabs a resources y que instancie esos
+- piraña para cocodrilo
+- medir distancias entre troncos
+- agregar segundo tronco al principio que vaya mas rapido
+- cambiar color al final y principio
+
+Bonus 
+
+cuando termina que haga los metodos correctos
+que se vea lindo (acomodar canvas para 800x600)
+que no se vea el detras de escenas
+
+antes de entregar
+PROBARTODO!!!!!111!!!!!!!111
+- ajustar timers en editor (auto start, game timer)
 
 

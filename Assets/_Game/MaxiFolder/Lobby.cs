@@ -70,6 +70,7 @@ public class Lobby : MonoBehaviour
     public void LoadLevel()
     {
         if (_photonView.IsMine) _photonView.RPC("LoadLevel", RpcTarget.Others);
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.LoadLevel(1);
     }
 
