@@ -8,7 +8,7 @@ public class Instantiator : MonoBehaviour
     [SerializeField] List<Transform> alligatorsSpawnPoints;
     [SerializeField] GameObject cameraPrefab;
 
-    public void SpawnPlayer(int player)
+    public Camera SpawnPlayer(int player)
     {
         GameObject playerObject;
         GameObject playerCamera;
@@ -16,6 +16,8 @@ public class Instantiator : MonoBehaviour
         playerObject = PhotonNetwork.Instantiate("PlayerObject", playersSpawnPoints[player - 1].position, Quaternion.identity);
         playerCamera = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
         playerCamera.GetComponent<CameraController>().SetTarget(playerObject.transform);
+
+        return playerCamera.GetComponent<Camera>();
     }
     public void SpawnAlligators(int alligatorsQuantity)
     {
