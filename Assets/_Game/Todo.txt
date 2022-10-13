@@ -22,7 +22,7 @@ Fer
 Bonus 
 
 cuando termina que haga los metodos correctos
-que se vea lindo (acomodar canvas para 800x600)
+- 
 que no se vea el detras de escenas
 
 antes de entregar
