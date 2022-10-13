@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviourPun
     private Instantiator instanceManager;
     private Canvas gameplayCanvas;
     [Range(1, 7)] [SerializeField] private int alligatorsQuantity;
+    [SerializeField] private Transform finishLine;
 
     private static GameManager _instance;
     public static GameManager Instance => _instance;
@@ -47,33 +48,8 @@ public class GameManager : MonoBehaviourPun
     {
         photonView.RPC("PlayerFinish", RpcTarget.All, player);
     }
-
-    private void PlayerWin()
+    public Vector3 GetFinishLinePosition()
     {
-        var text = GameObject.Find("EndText").GetComponentInChildren<TextMeshProUGUI>();
-        text.text = "You WON!";
-        Debug.Log("You Won");
-    }
-
-    private void PlayerLose()
-    {
-        var text = GameObject.Find("EndText").GetComponentInChildren<TextMeshProUGUI>();
-        text.text = "You LOST";
-        Debug.Log("You Lost");
-    }
-
-    public void BackToMenu()
-    {
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.LoadLevel(0);
-    }
-
-    [PunRPC]
-    public void PlayerFinish(int player)
-    {
-        if (PhotonNetwork.LocalPlayer.ActorNumber == player)
-            PlayerWin();
-        else
-            PlayerLose();
+        return finishLine.position;
     }
 }
