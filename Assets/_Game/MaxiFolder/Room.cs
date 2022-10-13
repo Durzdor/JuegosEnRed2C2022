@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
@@ -10,11 +9,15 @@ public class Room : MonoBehaviour
 {
     [SerializeField] private NetManager netManager;
     [SerializeField] private List<TextMeshProUGUI> playerNameTexts;
-    [SerializeField] private TextMeshProUGUI lobbyNameText;
-    [SerializeField] private TextMeshProUGUI lobbyCountText;
-    [SerializeField] private TextMeshProUGUI lobbyTimerText;
-    [SerializeField] private GameObject lobbyTimerGo;
+    [SerializeField] private TextMeshProUGUI roomNameText;
+    [SerializeField] private TextMeshProUGUI roomCountText;
+    [SerializeField] private TextMeshProUGUI roomTimerText;
+    [SerializeField] private GameObject roomTimerGo;
     [SerializeField] private Button startGameButton;
+    [SerializeField] private GameObject connectionGo;
+    [SerializeField] private GameObject roomGo;
+    [SerializeField] private GameObject gameHudGo;
+
 
     [Header("Game Start Settings")] [Space(5)] [SerializeField]
     private int autoStartTimer = 5;
@@ -22,17 +25,19 @@ public class Room : MonoBehaviour
     [SerializeField] private int minRequiredPlayers = 3;
 
     private PhotonView _photonView;
+    private GameHUD _gameHUD;
 
     private void Awake()
     {
         _photonView = GetComponent<PhotonView>();
+        _gameHUD = GetComponent<GameHUD>();
         netManager.OnRoomJoinedSuccessfully += SetupLobby;
         netManager.OnRoomLeftSuccessfully += UpdateLobby;
     }
 
     private void SetupLobby()
     {
-        lobbyNameText.text = PhotonNetwork.CurrentRoom.Name;
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         UpdateLobby();
     }
 
@@ -46,7 +51,7 @@ public class Room : MonoBehaviour
     private void UpdatePlayerNames()
     {
         var players = PhotonNetwork.PlayerList;
-        lobbyCountText.text = $"Players:{PhotonNetwork.CurrentRoom.PlayerCount}/{PhotonNetwork.CurrentRoom.MaxPlayers}";
+        roomCountText.text = $"Players:{PhotonNetwork.CurrentRoom.PlayerCount}/{PhotonNetwork.CurrentRoom.MaxPlayers}";
         foreach (var txt in playerNameTexts) txt.text = string.Empty;
         for (var i = 0; i < players.Length; i++) playerNameTexts[i].text = players[i].NickName;
     }
@@ -73,7 +78,10 @@ public class Room : MonoBehaviour
     {
         if (_photonView.IsMine) _photonView.RPC("LoadLevel", RpcTarget.Others);
         PhotonNetwork.CurrentRoom.IsOpen = false;
-        PhotonNetwork.LoadLevel(1);
+        connectionGo.SetActive(false);
+        gameHudGo.SetActive(true);
+        _gameHUD.StartHUD();
+        GameManager.Instance.StartGame();
     }
 
     private IEnumerator Countdown(int duration)
@@ -86,19 +94,18 @@ public class Room : MonoBehaviour
             _photonView.RPC("UpdateTimer", RpcTarget.All, count);
         }
 
-        if (_photonView.IsMine) _photonView.RPC("LoadLevel", RpcTarget.Others);
-        PhotonNetwork.LoadLevel(1);
+        LoadLevel();
     }
 
     [PunRPC]
     private void UpdateTimer(int count)
     {
-        lobbyTimerText.text = $"{count}s";
+        roomTimerText.text = $"{count}s";
     }
 
     [PunRPC]
     private void UpdateTimerActive(bool value)
     {
-        lobbyTimerGo.SetActive(value);
+        roomTimerGo.SetActive(value);
     }
 }

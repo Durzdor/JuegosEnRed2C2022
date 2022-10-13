@@ -12,7 +12,7 @@ public class NetManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField nickname;
     [SerializeField] private TMP_InputField maxPlayersCount;
     [SerializeField] private TMP_InputField roomName;
-    [SerializeField] private Room roomGo;
+    [SerializeField] private GameObject roomGo;
     [SerializeField] private GameObject lobbyGo;
 
     public event Action OnRoomJoinedSuccessfully;
@@ -75,7 +75,7 @@ public class NetManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         status.text = "Joined Room Successfully.";
-        roomGo.gameObject.SetActive(true);
+        roomGo.SetActive(true);
         lobbyGo.SetActive(false);
         CheckForUniqueName();
     }
@@ -88,7 +88,6 @@ public class NetManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        // if (otherPlayer.NickName == PhotonNetwork.LocalPlayer.NickName) return;
         OnRoomLeftSuccessfully?.Invoke();
     }
 
@@ -104,7 +103,7 @@ public class NetManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.LocalPlayer.NickName != player.NickName) continue;
             uniqueName = false;
             lobbyGo.SetActive(true);
-            roomGo.gameObject.SetActive(false);
+            roomGo.SetActive(false);
             PhotonNetwork.Disconnect();
         }
 

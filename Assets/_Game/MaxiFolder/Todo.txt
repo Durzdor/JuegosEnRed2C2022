@@ -2,8 +2,8 @@ TODO
 
 Maxi
 - Que pasa cuando se desconecta alguien
-- actualizacion de personajes en las tablas/guardar referencias
-- mergear lobby con gameplay
+- Leer de manera correcta las posiciones de los jugadores
+- 
 -
 - 
 -
@@ -29,4 +29,6 @@ antes de entregar
 PROBARTODO!!!!!111!!!!!!!111
 - ajustar timers en editor (auto start, game timer)
 - cuando el sapo salta horizontal sobre el mismo tronco pierde el emparentado y no se mueve junto al tronco
+- cambiar como spawnean los personajes (local actornumber no sirve porque 1-4 se asigna a los primeros que entran, 
+    si sale y entra uno nuevo le pone 5 y hace outofrange en el spawn.
 

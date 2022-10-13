@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class GameHUD : MonoBehaviour
 {
+    [Header("General")] [Space(5)] [SerializeField]
+    private List<Sprite> imageReferenceList;
+
     [Header("Game Timer")] [Space(5)] [SerializeField]
     private TextMeshProUGUI gameTimer;
 
@@ -35,7 +38,7 @@ public class GameHUD : MonoBehaviour
         _photonView = GetComponent<PhotonView>();
     }
 
-    private void Start()
+    public void StartHUD()
     {
         if (_photonView.IsMine)
             StartTimer(seconds, minutes);
@@ -44,6 +47,7 @@ public class GameHUD : MonoBehaviour
 
         _photonView.RPC("UpdateTableVisibility", RpcTarget.All);
         _photonView.RPC("UpdateTableNames", RpcTarget.All);
+        _photonView.RPC("UpdateTableImages", RpcTarget.All);
     }
 
     private void StartTimer(int sec, int min)
@@ -95,16 +99,38 @@ public class GameHUD : MonoBehaviour
         var playerList = PhotonNetwork.PlayerList;
         foreach (var pos in tablePositionsGoList) pos.SetActive(false);
         foreach (var pos in gameEndPositionsGoList) pos.SetActive(false);
+        foreach (var pos in tablePositionsNamesList) pos.gameObject.SetActive(false);
+        foreach (var pos in gameEndNamesList) pos.gameObject.SetActive(false);
         for (var i = 0; i < playerList.Length; i++)
         {
             tablePositionsGoList[i].SetActive(true);
             gameEndPositionsGoList[i].SetActive(true);
+            tablePositionsNamesList[i].gameObject.SetActive(true);
+            gameEndNamesList[i].gameObject.SetActive(true);
         }
     }
 
+    [PunRPC]
     private void UpdateTableNames()
     {
         var playerList = PhotonNetwork.PlayerList;
-        for (var i = 0; i < gameEndNamesList.Count; i++) gameEndNamesList[i].text = playerList[i].NickName;
+        for (var i = 0; i < playerList.Length; i++)
+        {
+            // Aca se lee el orden de los jugadores ¬
+            tablePositionsNamesList[i].text = playerList[i].NickName;
+            gameEndNamesList[i].text = playerList[i].NickName;
+        }
+    }
+
+    [PunRPC]
+    private void UpdateTableImages()
+    {
+        var playerList = PhotonNetwork.PlayerList;
+        for (var i = 0; i < playerList.Length; i++)
+        {
+            // Aca se lee el orden de los jugadores ¬
+            tablePositionsImagesList[i].sprite = imageReferenceList[i];
+            gameEndImagesList[i].sprite = imageReferenceList[i];
+        }
     }
 }
