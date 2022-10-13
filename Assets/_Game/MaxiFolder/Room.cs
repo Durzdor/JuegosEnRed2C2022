@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lobby : MonoBehaviour
+public class Room : MonoBehaviour
 {
     [SerializeField] private NetManager netManager;
     [SerializeField] private List<TextMeshProUGUI> playerNameTexts;
@@ -16,9 +16,12 @@ public class Lobby : MonoBehaviour
     [SerializeField] private GameObject lobbyTimerGo;
     [SerializeField] private Button startGameButton;
 
+    [Header("Game Start Settings")] [Space(5)] [SerializeField]
+    private int autoStartTimer = 5;
+
+    [SerializeField] private int minRequiredPlayers = 3;
+
     private PhotonView _photonView;
-    private const int MIN_REQUIRED_PLAYERS = 3;
-    private const int AUTO_START_TIMER = 5;
 
     private void Awake()
     {
@@ -51,13 +54,12 @@ public class Lobby : MonoBehaviour
     [PunRPC]
     private void StartGameCheck()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount >= MIN_REQUIRED_PLAYERS)
-            startGameButton.gameObject.SetActive(enabled);
+        startGameButton.gameObject.SetActive(PhotonNetwork.CurrentRoom.PlayerCount >= minRequiredPlayers);
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
-            _photonView.RPC("UpdateTimer", RpcTarget.All, AUTO_START_TIMER);
+            _photonView.RPC("UpdateTimer", RpcTarget.All, autoStartTimer);
             _photonView.RPC("UpdateTimerActive", RpcTarget.All, true);
-            StartCoroutine(Countdown(AUTO_START_TIMER));
+            StartCoroutine(Countdown(autoStartTimer));
         }
         else
         {

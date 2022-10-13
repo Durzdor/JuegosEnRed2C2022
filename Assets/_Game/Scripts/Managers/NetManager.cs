@@ -12,8 +12,8 @@ public class NetManager : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_InputField nickname;
     [SerializeField] private TMP_InputField maxPlayersCount;
     [SerializeField] private TMP_InputField roomName;
-    [SerializeField] private Lobby lobbyGo;
-    [SerializeField] private GameObject connectionGo;
+    [SerializeField] private Room roomGo;
+    [SerializeField] private GameObject lobbyGo;
 
     public event Action OnRoomJoinedSuccessfully;
     public event Action OnRoomLeftSuccessfully;
@@ -62,22 +62,22 @@ public class NetManager : MonoBehaviourPunCallbacks
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        status.text = "Created Room failed.";
+        status.text = "Created Room failed." + returnCode + "|" + message;
         button.interactable = true;
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        status.text = "Connection Failed.";
+        status.text = "Connection Failed." + cause;
         button.interactable = true;
     }
 
     public override void OnJoinedRoom()
     {
         status.text = "Joined Room Successfully.";
-        lobbyGo.gameObject.SetActive(true);
-        connectionGo.SetActive(false);
-        OnRoomJoinedSuccessfully?.Invoke();
+        roomGo.gameObject.SetActive(true);
+        lobbyGo.SetActive(false);
+        CheckForUniqueName();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -88,10 +88,26 @@ public class NetManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        // if (otherPlayer.NickName == PhotonNetwork.LocalPlayer.NickName) return;
         OnRoomLeftSuccessfully?.Invoke();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+    }
+
+    private void CheckForUniqueName()
+    {
+        var uniqueName = true;
+        foreach (var player in PhotonNetwork.PlayerListOthers)
+        {
+            if (PhotonNetwork.LocalPlayer.NickName != player.NickName) continue;
+            uniqueName = false;
+            lobbyGo.SetActive(true);
+            roomGo.gameObject.SetActive(false);
+            PhotonNetwork.Disconnect();
+        }
+
+        if (uniqueName) OnRoomJoinedSuccessfully?.Invoke();
     }
 }

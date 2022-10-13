@@ -4,7 +4,9 @@ Maxi
 - Que pasa cuando se desconecta alguien
 - actualizacion de personajes en las tablas/guardar referencias
 - mergear lobby con gameplay
-- checkear que no este el mismo nombre
+-
+- 
+-
 si hay algun problema con canvas asignarle la camara amano - lista .find
 
 Fer
@@ -26,5 +28,5 @@ que no se vea el detras de escenas
 antes de entregar
 PROBARTODO!!!!!111!!!!!!!111
 - ajustar timers en editor (auto start, game timer)
-
+- cuando el sapo salta horizontal sobre el mismo tronco pierde el emparentado y no se mueve junto al tronco
 
