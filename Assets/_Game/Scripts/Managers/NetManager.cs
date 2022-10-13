@@ -90,4 +90,8 @@ public class NetManager : MonoBehaviourPunCallbacks
     {
         OnRoomLeftSuccessfully?.Invoke();
     }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+    }
 }

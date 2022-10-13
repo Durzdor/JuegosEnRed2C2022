@@ -35,12 +35,12 @@ public class Lobby : MonoBehaviour
 
     private void UpdateLobby()
     {
-        _photonView.RPC("UpdateValues", RpcTarget.All);
+        _photonView.RPC("UpdatePlayerNames", RpcTarget.All);
         _photonView.RPC("StartGameCheck", PhotonNetwork.MasterClient);
     }
 
     [PunRPC]
-    private void UpdateValues()
+    private void UpdatePlayerNames()
     {
         var players = PhotonNetwork.PlayerList;
         lobbyCountText.text = $"Players:{PhotonNetwork.CurrentRoom.PlayerCount}/{PhotonNetwork.CurrentRoom.MaxPlayers}";
