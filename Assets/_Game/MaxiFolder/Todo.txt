@@ -6,7 +6,6 @@ Maxi
 - mergear lobby con gameplay
 - cambiar prefabs para que sean del fbx y no .blend
 - checkear que no este el mismo nombre
-- sacar diferencias de posiciones (no es necesario editarlas)
 si hay algun problema con canvas asignarle la camara amano - lista .find
 
 Fer

@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 194079194}
   - component: {fileID: 194079193}
   m_Layer: 5
-  m_Name: Player
+  m_Name: FirstPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -632,7 +632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &278333673
 RectTransform:
   m_ObjectHideFlags: 0
@@ -668,7 +668,7 @@ GameObject:
   - component: {fileID: 334128485}
   - component: {fileID: 334128484}
   m_Layer: 5
-  m_Name: Player
+  m_Name: ThirdPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -922,7 +922,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Place:#
+  m_text: '2nd
 
 '
   m_isRightToLeft: 0
@@ -951,7 +951,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.3
+  m_fontSize: 56.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Place:#
+  m_text: '3rd
 
 '
   m_isRightToLeft: 0
@@ -3183,7 +3183,7 @@ GameObject:
   - component: {fileID: 1547082460}
   - component: {fileID: 1547082459}
   m_Layer: 5
-  m_Name: Player
+  m_Name: FourthPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3749,7 +3749,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38560167, y: 0.82222223}
-  m_AnchorMax: {x: 0.6143983, y: 0.91481483}
+  m_AnchorMax: {x: 0.61439586, y: 0.91481483}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3790,11 +3790,21 @@ MonoBehaviour:
   gameTimer: {fileID: 532333629}
   minutes: 0
   seconds: 10
-  tablePositionsList:
+  tablePositionsGoList:
   - {fileID: 93016626}
   - {fileID: 66442198}
   - {fileID: 811714622}
   - {fileID: 640132304}
+  tablePositionsNamesList:
+  - {fileID: 945873713}
+  - {fileID: 1298506755}
+  - {fileID: 2067851185}
+  - {fileID: 225772141}
+  tablePositionsImagesList:
+  - {fileID: 194079193}
+  - {fileID: 2109120418}
+  - {fileID: 334128484}
+  - {fileID: 1547082459}
   gameEndPositionsGoList:
   - {fileID: 1351504285}
   - {fileID: 1286409109}
@@ -3805,14 +3815,12 @@ MonoBehaviour:
   - {fileID: 987923102}
   - {fileID: 913092381}
   - {fileID: 1079573410}
+  gameEndImagesList:
+  - {fileID: 1493489288}
+  - {fileID: 1380971220}
+  - {fileID: 195359275}
+  - {fileID: 940131922}
   gameResultScreenGo: {fileID: 278333672}
-  secondPlaceNumberText: {fileID: 568864618}
-  thirdPlaceNumberText: {fileID: 581761832}
-  fourthPlaceNumberText: {fileID: 2077327344}
-  winnerFrogImage: {fileID: 1493489288}
-  secondFrogImage: {fileID: 1380971220}
-  thirdFrogImage: {fileID: 195359275}
-  fourthFrogImage: {fileID: 940131922}
 --- !u!1 &2077327342
 GameObject:
   m_ObjectHideFlags: 0
@@ -3870,9 +3878,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Place:#
-
-'
+  m_text: 4th
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3961,7 +3967,7 @@ GameObject:
   - component: {fileID: 2109120419}
   - component: {fileID: 2109120418}
   m_Layer: 5
-  m_Name: Player
+  m_Name: SecondPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

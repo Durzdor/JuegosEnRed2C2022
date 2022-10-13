@@ -14,21 +14,17 @@ public class GameHUD : MonoBehaviour
     [SerializeField] private int seconds;
 
     [Header("Position Table")] [Space(5)] [SerializeField]
-    private List<GameObject> tablePositionsList;
+    private List<GameObject> tablePositionsGoList; // To only show players connected
+
+    [SerializeField] private List<TextMeshProUGUI> tablePositionsNamesList;
+    [SerializeField] private List<Image> tablePositionsImagesList;
 
     [Header("Game End References")] [Space(5)] [SerializeField]
-    private List<GameObject> gameEndPositionsGoList;
+    private List<GameObject> gameEndPositionsGoList; // To only show players connected
 
     [SerializeField] private List<TextMeshProUGUI> gameEndNamesList;
+    [SerializeField] private List<Image> gameEndImagesList;
     [SerializeField] private GameObject gameResultScreenGo;
-    [SerializeField] private TextMeshProUGUI secondPlaceNumberText;
-    [SerializeField] private TextMeshProUGUI thirdPlaceNumberText;
-    [SerializeField] private TextMeshProUGUI fourthPlaceNumberText;
-    [SerializeField] private Image winnerFrogImage;
-    [SerializeField] private Image secondFrogImage;
-    [SerializeField] private Image thirdFrogImage;
-    [SerializeField] private Image fourthFrogImage;
-
 
     private PhotonView _photonView;
     private int _currSec;
@@ -97,11 +93,11 @@ public class GameHUD : MonoBehaviour
     private void UpdateTableVisibility()
     {
         var playerList = PhotonNetwork.PlayerList;
-        foreach (var pos in tablePositionsList) pos.SetActive(false);
+        foreach (var pos in tablePositionsGoList) pos.SetActive(false);
         foreach (var pos in gameEndPositionsGoList) pos.SetActive(false);
         for (var i = 0; i < playerList.Length; i++)
         {
-            tablePositionsList[i].SetActive(true);
+            tablePositionsGoList[i].SetActive(true);
             gameEndPositionsGoList[i].SetActive(true);
         }
     }
