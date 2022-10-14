@@ -8,6 +8,7 @@ public class FrogCharacterController : MonoBehaviourPun
     FrogCharacterModel model;
     FrogCharacterViewer view;
     bool moving = false;
+    bool canJump = true;
     float jumpTime;
     Vector3 finishLinePos;
     [SerializeField] float jumpSpeedRatio = .05f;
@@ -33,7 +34,7 @@ public class FrogCharacterController : MonoBehaviourPun
             jumpTime = 0;
             photonView.RPC("UpdatePosition", RpcTarget.Others, transform.position);
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !moving)
+        if (Input.GetKeyDown(KeyCode.Space) && !moving && canJump)
         {
             model.GetCenter();
             moving = true;
@@ -55,6 +56,7 @@ public class FrogCharacterController : MonoBehaviourPun
         switch (collision.gameObject.layer)
         {
             case (int)AllLayers.Platform:
+                canJump = true;
                 transform.parent = collision.transform;
                 photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, false);
                 break;
@@ -74,6 +76,7 @@ public class FrogCharacterController : MonoBehaviourPun
     {
         if (collision.gameObject.layer == (int)AllLayers.Platform)
         {
+            canJump = false;
             transform.parent = null;
             photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, true);
         }
