@@ -42,8 +42,6 @@ public class GameHUD : MonoBehaviour
     {
         if (_photonView.IsMine)
             StartTimer(seconds, minutes);
-        else
-            _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
 
         //UpdateTables();
     }

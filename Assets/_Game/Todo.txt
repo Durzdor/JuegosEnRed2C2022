@@ -13,8 +13,8 @@ Fer
 - Cuando termina el tiempo el que esta mas lejos gana
 -
 -
-- agregar prefabs a resources y que instancie esos
-- piraña para cocodrilo
+- 
+- 
 -
 -
 -
@@ -28,7 +28,6 @@ que no se vea el detras de escenas
 antes de entregar
 PROBARTODO!!!!!111!!!!!!!111
 - ajustar timers en editor (auto start, game timer)
-- cuando el sapo salta horizontal sobre el mismo tronco pierde el emparentado y no se mueve junto al tronco
-- cambiar como spawnean los personajes (local actornumber no sirve porque 1-4 se asigna a los primeros que entran, 
-    si sale y entra uno nuevo le pone 5 y hace outofrange en el spawn.
+- 
+- 
 
