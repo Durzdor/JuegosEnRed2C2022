@@ -17,7 +17,6 @@ public class Room : MonoBehaviour
     [SerializeField] private GameObject connectionGo;
     [SerializeField] private GameObject gameHudGo;
 
-
     [Header("Game Start Settings")] [Space(5)] [SerializeField]
     private int autoStartTimer = 5;
 
@@ -78,8 +77,8 @@ public class Room : MonoBehaviour
         if (_photonView.IsMine) _photonView.RPC("LoadLevel", RpcTarget.Others);
         PhotonNetwork.CurrentRoom.IsOpen = false;
         connectionGo.SetActive(false);
-        gameHudGo.SetActive(true);
         _gameHUD.StartHUD();
+        gameHudGo.SetActive(true);
         GameManager.Instance.StartGame();
     }
 

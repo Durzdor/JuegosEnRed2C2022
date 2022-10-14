@@ -2596,7 +2596,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: caf83da1ec572254ab001ef71914b4dc, type: 3}
   gameTimer: {fileID: 532333629}
   minutes: 0
-  seconds: 5
+  seconds: 30
   tablePositionsGoList:
   - {fileID: 93016626}
   - {fileID: 66442198}

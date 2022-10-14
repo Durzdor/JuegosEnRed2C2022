@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,12 +31,16 @@ public class GameHUD : MonoBehaviour
     [SerializeField] private GameObject gameResultScreenGo;
 
     private PhotonView _photonView;
+    private NetManager _netManager;
     private int _currSec;
     private int _currMin;
 
     private void Awake()
     {
         _photonView = GetComponent<PhotonView>();
+        _netManager = GetComponent<NetManager>();
+
+        _netManager.OnRoomLeftSuccessfully += UpdateTables;
     }
 
     public void StartHUD()
@@ -45,9 +50,7 @@ public class GameHUD : MonoBehaviour
         else
             _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
 
-        _photonView.RPC("UpdateTableVisibility", RpcTarget.All);
-        _photonView.RPC("UpdateTableNames", RpcTarget.All);
-        _photonView.RPC("UpdateTableImages", RpcTarget.All);
+        UpdateTables();
     }
 
     private void StartTimer(int sec, int min)
@@ -132,5 +135,12 @@ public class GameHUD : MonoBehaviour
             tablePositionsImagesList[i].sprite = imageReferenceList[i];
             gameEndImagesList[i].sprite = imageReferenceList[i];
         }
+    }
+
+    private void UpdateTables()
+    {
+        _photonView.RPC("UpdateTableVisibility", RpcTarget.All);
+        _photonView.RPC("UpdateTableNames", RpcTarget.All);
+        _photonView.RPC("UpdateTableImages", RpcTarget.All);
     }
 }
