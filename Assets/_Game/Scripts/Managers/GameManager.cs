@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviourPun
     private Canvas gameplayCanvas;
     [Range(1, 7)] [SerializeField] private int alligatorsQuantity;
     [SerializeField] private Transform finishLine;
+    [SerializeField] private GameHUD gameHud;
 
     public static GameManager Instance;
 
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviourPun
 
     public void GotFinishLine(int player)
     {
-        photonView.RPC("PlayerFinish", RpcTarget.All, player);
+        gameHud.CallEndScreen();
     }
 
     public Vector3 GetFinishLinePosition()

@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameHUD : MonoBehaviourPun
+public class GameHUD : MonoBehaviour
 {
     [Header("General")] [Space(5)] [SerializeField]
     private List<Sprite> imageReferenceList;
@@ -30,31 +29,35 @@ public class GameHUD : MonoBehaviourPun
     [SerializeField] private List<Image> gameEndImagesList;
     [SerializeField] private GameObject gameResultScreenGo;
 
-    private NetManager _netManager;
+    private PhotonView _photonView;
     private int _currSec;
     private int _currMin;
 
     private void Awake()
     {
-        _netManager = GetComponent<NetManager>();
-        _netManager.OnRoomLeftSuccessfully += UpdateTables;
+        _photonView = GetComponent<PhotonView>();
     }
 
     public void StartHUD()
     {
-        if (photonView.IsMine)
+        if (_photonView.IsMine)
             StartTimer(seconds, minutes);
         else
-            photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
+            _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
 
-        UpdateTables();
+        _photonView.RPC("UpdateTableVisibility", RpcTarget.All);
+        _photonView.RPC("UpdateTableNames", RpcTarget.All);
+        _photonView.RPC("UpdateTableImages", RpcTarget.All);
     }
-
+    public void CallEndScreen()
+    {
+        _photonView.RPC("EndScreenPopUp", RpcTarget.All, true);
+    }
     private void StartTimer(int sec, int min)
     {
         _currSec = sec;
         _currMin = min;
-        photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
+        _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
         StartCoroutine(Countdown());
     }
 
@@ -74,10 +77,10 @@ public class GameHUD : MonoBehaviourPun
             }
             else
             {
-                if (_currSec <= 0) photonView.RPC("EndScreenPopUp", RpcTarget.All, true);
+                if (_currSec <= 0) CallEndScreen();
             }
 
-            photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
+            _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
         }
     }
 
@@ -132,12 +135,5 @@ public class GameHUD : MonoBehaviourPun
             tablePositionsImagesList[i].sprite = imageReferenceList[i];
             gameEndImagesList[i].sprite = imageReferenceList[i];
         }
-    }
-
-    private void UpdateTables()
-    {
-        photonView.RPC("UpdateTableVisibility", RpcTarget.All);
-        photonView.RPC("UpdateTableNames", RpcTarget.All);
-        photonView.RPC("UpdateTableImages", RpcTarget.All);
     }
 }

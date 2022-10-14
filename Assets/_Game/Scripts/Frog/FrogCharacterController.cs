@@ -27,7 +27,7 @@ public class FrogCharacterController : MonoBehaviourPun
     }
     void Update()
     {
-        if (transform.position == model.endPos && moving)
+        if (Vector3.Distance(transform.position, model.endPos) < .1f && moving)
         {
             moving = false;
             jumpTime = 0;
