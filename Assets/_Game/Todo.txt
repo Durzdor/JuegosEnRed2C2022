@@ -1,7 +1,7 @@
 TODO
 
 Maxi
-- Que pasa cuando se desconecta alguien
+- Guardar Referencias de jugadores cuando entran
 - Leer de manera correcta las posiciones de los jugadores
 - 
 -
