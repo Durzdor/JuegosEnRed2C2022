@@ -15,7 +15,6 @@ public class Room : MonoBehaviour
     [SerializeField] private GameObject roomTimerGo;
     [SerializeField] private Button startGameButton;
     [SerializeField] private GameObject connectionGo;
-    [SerializeField] private GameObject roomGo;
     [SerializeField] private GameObject gameHudGo;
 
 

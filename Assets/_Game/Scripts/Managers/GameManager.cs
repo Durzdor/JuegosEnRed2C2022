@@ -9,21 +9,24 @@ public class GameManager : MonoBehaviourPun
     [Range(1, 7)] [SerializeField] private int alligatorsQuantity;
     [SerializeField] private Transform finishLine;
 
-    private static GameManager _instance;
-    public static GameManager Instance => _instance;
+    public static GameManager Instance;
 
-    private void Awake()
+    private void MakeSingleton()
     {
-        if (_instance != null && _instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(this);
         }
         else
         {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
+    }
 
+    private void Awake()
+    {
+        MakeSingleton();
         instanceManager = GameObject.Find("Instantiator").GetComponent<Instantiator>();
     }
 
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviourPun
     {
         photonView.RPC("PlayerFinish", RpcTarget.All, player);
     }
+
     public Vector3 GetFinishLinePosition()
     {
         return finishLine.position;
