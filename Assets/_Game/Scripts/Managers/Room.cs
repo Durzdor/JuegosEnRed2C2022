@@ -75,9 +75,9 @@ public class Room : MonoBehaviourPun
         if (photonView.IsMine) photonView.RPC("LoadLevel", RpcTarget.Others);
         PhotonNetwork.CurrentRoom.IsOpen = false;
         connectionGo.SetActive(false);
+        GameManager.Instance.StartGame();
         _gameHUD.StartHUD();
         gameHudGo.SetActive(true);
-        GameManager.Instance.StartGame();
     }
 
     private IEnumerator Countdown(int duration)

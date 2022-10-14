@@ -1,32 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Photon.Pun;
 
 public class FrogCharacterController : MonoBehaviourPun
 {
-    FrogCharacterModel model;
-    FrogCharacterViewer view;
-    bool moving = false;
-    bool canJump = true;
-    float jumpTime;
-    Vector3 finishLinePos;
-    [SerializeField] float jumpSpeedRatio = .05f;
+    private FrogCharacterModel model;
+    private FrogCharacterViewer view;
+    private bool moving = false;
+    private bool canJump = true;
+    private float jumpTime;
 
-    private float _finishLineDistance;
-    public float FinishLineDistance => _finishLineDistance;
+    [SerializeField] private float jumpSpeedRatio = .05f;
 
-    void Awake()
+    private void Awake()
     {
         model = GetComponent<FrogCharacterModel>();
         if (!photonView.IsMine)
             Destroy(this);
     }
-    void Start()
-    {
-        finishLinePos = GameManager.Instance.GetFinishLinePosition();
-    }
-    void Update()
+
+    private void Update()
     {
         if (Vector3.Distance(transform.position, model.endPos) < .1f && moving)
         {
@@ -34,11 +27,13 @@ public class FrogCharacterController : MonoBehaviourPun
             jumpTime = 0;
             photonView.RPC("UpdatePosition", RpcTarget.Others, transform.position);
         }
+
         if (Input.GetKeyDown(KeyCode.Space) && !moving && canJump)
         {
             model.GetCenter();
             moving = true;
         }
+
         model.RotateRight(Input.GetKeyDown(KeyCode.D));
         model.RotateLeft(Input.GetKeyDown(KeyCode.A));
 
@@ -47,8 +42,6 @@ public class FrogCharacterController : MonoBehaviourPun
             jumpTime += jumpSpeedRatio;
             model.JumpMove(jumpTime);
         }
-
-        _finishLineDistance = Vector3.Distance(transform.position, finishLinePos);
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -17,6 +17,7 @@ public class NetManager : MonoBehaviourPunCallbacks
 
     public event Action OnRoomJoinedSuccessfully;
     public event Action OnRoomLeftSuccessfully;
+    public event Action<int> OnPlayerConnect;
 
     private RoomOptions _roomOptions;
 
@@ -103,7 +104,11 @@ public class NetManager : MonoBehaviourPunCallbacks
             PhotonNetwork.Disconnect();
         }
 
-        if (uniqueName) OnRoomJoinedSuccessfully?.Invoke();
+        if (uniqueName)
+        {
+            OnRoomJoinedSuccessfully?.Invoke();
+            OnPlayerConnect?.Invoke(PhotonNetwork.CurrentRoom.PlayerCount);
+        }
     }
 
     public void Disconnect()

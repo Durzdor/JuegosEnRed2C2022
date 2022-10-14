@@ -45,14 +45,14 @@ public class GameHUD : MonoBehaviour
         else
             _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
 
-        _photonView.RPC("UpdateTableVisibility", RpcTarget.All);
-        _photonView.RPC("UpdateTableNames", RpcTarget.All);
-        _photonView.RPC("UpdateTableImages", RpcTarget.All);
+        //UpdateTables();
     }
+
     public void CallEndScreen()
     {
         _photonView.RPC("EndScreenPopUp", RpcTarget.All, true);
     }
+
     private void StartTimer(int sec, int min)
     {
         _currSec = sec;
@@ -120,8 +120,10 @@ public class GameHUD : MonoBehaviour
         for (var i = 0; i < playerList.Length; i++)
         {
             // Aca se lee el orden de los jugadores ¬
-            tablePositionsNamesList[i].text = playerList[i].NickName;
-            gameEndNamesList[i].text = playerList[i].NickName;
+            tablePositionsNamesList[i].text =
+                GameManager.Instance.PlayerReferences[GameManager.Instance.PlayerTablePositions[i]];
+            gameEndNamesList[i].text =
+                GameManager.Instance.PlayerReferences[GameManager.Instance.PlayerTablePositions[i]];
         }
     }
 
@@ -132,8 +134,15 @@ public class GameHUD : MonoBehaviour
         for (var i = 0; i < playerList.Length; i++)
         {
             // Aca se lee el orden de los jugadores ¬
-            tablePositionsImagesList[i].sprite = imageReferenceList[i];
-            gameEndImagesList[i].sprite = imageReferenceList[i];
+            tablePositionsImagesList[i].sprite = imageReferenceList[GameManager.Instance.PlayerTablePositions[i]];
+            gameEndImagesList[i].sprite = imageReferenceList[GameManager.Instance.PlayerTablePositions[i]];
         }
+    }
+
+    private void UpdateTables()
+    {
+        _photonView.RPC("UpdateTableVisibility", RpcTarget.All);
+        _photonView.RPC("UpdateTableNames", RpcTarget.All);
+        _photonView.RPC("UpdateTableImages", RpcTarget.All);
     }
 }
