@@ -110,6 +110,6 @@ public class NetManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Disconnect();
         PhotonNetwork.LoadLevel(0);
-        //GameManager.Instance.MakeSingleton();
+        GameManager.Instance.MakeSingleton();
     }
 }

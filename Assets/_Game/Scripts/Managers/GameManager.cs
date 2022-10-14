@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviourPun
 
     public static GameManager Instance;
 
-    private void MakeSingleton()
+    public void MakeSingleton()
     {
         if (Instance == null)
         {
