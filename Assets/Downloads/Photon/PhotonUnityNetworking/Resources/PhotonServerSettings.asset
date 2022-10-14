@@ -54,6 +54,10 @@ MonoBehaviour:
   - UpdateTableImages
   - PlayerReferenceModify
   - SpawnPlayerObject
+  - UpdateTables
+  - TableImagesUp
+  - TableNamesUp
+  - UpdateALL
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

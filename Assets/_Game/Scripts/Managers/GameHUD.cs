@@ -79,23 +79,24 @@ public class GameHUD : MonoBehaviour
             }
 
             _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
+            //GameManager.Instance.photonView.RPC("UpdateALL", RpcTarget.MasterClient);
         }
     }
 
     [PunRPC]
-    private void UpdateTimer(int min, int sec)
+    public void UpdateTimer(int min, int sec)
     {
         gameTimer.text = $"{min}m:{sec}s";
     }
 
     [PunRPC]
-    private void EndScreenPopUp(bool value)
+    public void EndScreenPopUp(bool value)
     {
         gameResultScreenGo.SetActive(value);
     }
 
     [PunRPC]
-    private void UpdateTableVisibility()
+    public void UpdateTableVisibility()
     {
         var playerList = PhotonNetwork.PlayerList;
         foreach (var pos in tablePositionsGoList) pos.SetActive(false);
@@ -112,35 +113,24 @@ public class GameHUD : MonoBehaviour
     }
 
     [PunRPC]
-    private void UpdateTableNames()
+    public void TableImagesUp(int i, int pNum)
     {
-        var playerList = PhotonNetwork.PlayerList;
-        for (var i = 0; i < playerList.Length; i++)
-        {
-            // Aca se lee el orden de los jugadores ¬
-            tablePositionsNamesList[i].text =
-                GameManager.Instance.PlayerReferences[GameManager.Instance.PlayerTablePositions[i]];
-            gameEndNamesList[i].text =
-                GameManager.Instance.PlayerReferences[GameManager.Instance.PlayerTablePositions[i]];
-        }
+        tablePositionsImagesList[i].sprite = imageReferenceList[pNum];
+        gameEndImagesList[i].sprite = imageReferenceList[pNum];
     }
 
     [PunRPC]
-    private void UpdateTableImages()
+    public void TableNamesUp(int i, string pName)
     {
-        var playerList = PhotonNetwork.PlayerList;
-        for (var i = 0; i < playerList.Length; i++)
-        {
-            // Aca se lee el orden de los jugadores ¬
-            tablePositionsImagesList[i].sprite = imageReferenceList[GameManager.Instance.PlayerTablePositions[i]];
-            gameEndImagesList[i].sprite = imageReferenceList[GameManager.Instance.PlayerTablePositions[i]];
-        }
+        tablePositionsNamesList[i].text = pName;
+        gameEndNamesList[i].text = pName;
     }
 
-    private void UpdateTables()
+    [PunRPC]
+    public void UpdateTables(List<int> tablePos, List<string> tableName)
     {
         _photonView.RPC("UpdateTableVisibility", RpcTarget.All);
-        _photonView.RPC("UpdateTableNames", RpcTarget.All);
-        _photonView.RPC("UpdateTableImages", RpcTarget.All);
+        _photonView.RPC("UpdateTableNames", RpcTarget.All, tablePos, tableName);
+        _photonView.RPC("UpdateTableImages", RpcTarget.All, tablePos);
     }
 }

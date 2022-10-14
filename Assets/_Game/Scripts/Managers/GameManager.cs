@@ -14,10 +14,9 @@ public class GameManager : MonoBehaviourPun
     [SerializeField] private NetManager netManager;
 
 
-    public List<string> PlayerReferences { get; private set; }
+    public List<string> PlayerNames { get; private set; }
     private List<float> _playerTableDistances;
     public List<int> PlayerTablePositions { get; private set; }
-    private List<GameObject> _frogObj = new List<GameObject>();
 
     public static GameManager Instance;
 
@@ -36,12 +35,11 @@ public class GameManager : MonoBehaviourPun
 
     private void Awake()
     {
-        PlayerReferences = new List<string>();
+        PlayerNames = new List<string>();
         _playerTableDistances = new List<float>();
         PlayerTablePositions = new List<int>();
         MakeSingleton();
         instanceManager = GameObject.Find("Instantiator").GetComponent<Instantiator>();
-        //netManager.OnPlayerConnect += SpawnPlayerObject;
     }
 
     public void StartGame()
@@ -55,7 +53,7 @@ public class GameManager : MonoBehaviourPun
             photonView.RPC("SpawnPlayerObject", target, i + 1);
         }
 
-        PlayerPositions();
+        //UpdateALL();
     }
 
     public Vector3 RespawnPlayer(int player)
@@ -84,10 +82,9 @@ public class GameManager : MonoBehaviourPun
     [PunRPC]
     private void PlayerReferenceModify(string playerName, float playerDistance)
     {
-        PlayerReferences.Add(playerName);
+        PlayerNames.Add(playerName);
         // Agrega todas las ranas a una lista de pos
         _playerTableDistances.Add(playerDistance);
-        
     }
 
     private void PlayerPositions()
@@ -110,5 +107,36 @@ public class GameManager : MonoBehaviourPun
         //     PlayerTablePositions[i] = playerNumberPosition[i];
         // }
         PlayerTablePositions = playerNumberPosition;
+    }
+
+    private void PlayerImageUpdate()
+    {
+        var playerList = PhotonNetwork.PlayerList;
+        for (var i = 0; i < playerList.Length; i++)
+        {
+            var pNum = PlayerTablePositions[i];
+            // Aca se lee el orden de los jugadores ¬
+            gameHud.gameObject.GetPhotonView().RPC("TableImagesUp", RpcTarget.All, i, pNum);
+        }
+    }
+
+    private void PlayerNamesUpdate()
+    {
+        var playerList = PhotonNetwork.PlayerList;
+        for (var i = 0; i < playerList.Length; i++)
+        {
+            var pName = PlayerNames[PlayerTablePositions[i]];
+            // Aca se lee el orden de los jugadores ¬
+            gameHud.gameObject.GetPhotonView().RPC("TableNamesUp", RpcTarget.All, i, pName);
+        }
+    }
+
+    [PunRPC]
+    public void UpdateALL()
+    {
+        gameHud.gameObject.GetPhotonView().RPC("UpdateTableVisibility", RpcTarget.All);
+        PlayerPositions();
+        PlayerNamesUpdate();
+        PlayerImageUpdate();
     }
 }
