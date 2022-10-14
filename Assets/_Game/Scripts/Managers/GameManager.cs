@@ -49,13 +49,13 @@ public class GameManager : MonoBehaviourPun
         if (!photonView.IsMine) return;
         instanceManager.SpawnAlligators(alligatorsQuantity);
 
-        // PlayerPositions();
-
         for (var i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             var target = PhotonNetwork.PlayerList[i];
             photonView.RPC("SpawnPlayerObject", target, i + 1);
         }
+
+        PlayerPositions();
     }
 
     public Vector3 RespawnPlayer(int player)
@@ -79,8 +79,6 @@ public class GameManager : MonoBehaviourPun
         var frogCont = instanceManager.SpawnPlayerRef(playerCount);
         photonView.RPC("PlayerReferenceModify", RpcTarget.MasterClient, frogCont.photonView.Owner.NickName,
             frogCont.FinishLineDistance);
-
-        //PlayerReferenceModify(frogCont.photonView.Owner.NickName, frogCont.FinishLineDistance);
     }
 
     [PunRPC]
@@ -89,6 +87,7 @@ public class GameManager : MonoBehaviourPun
         PlayerReferences.Add(playerName);
         // Agrega todas las ranas a una lista de pos
         _playerTableDistances.Add(playerDistance);
+        
     }
 
     private void PlayerPositions()
