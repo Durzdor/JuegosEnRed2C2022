@@ -10,21 +10,24 @@ public class GameManager : MonoBehaviourPun
     [SerializeField] private Transform finishLine;
     [SerializeField] private GameHUD gameHud;
 
-    private static GameManager _instance;
-    public static GameManager Instance => _instance;
+    public static GameManager Instance;
 
-    private void Awake()
+    public void MakeSingleton()
     {
-        if (_instance != null && _instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(this);
         }
         else
         {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
+    }
 
+    private void Awake()
+    {
+        MakeSingleton();
         instanceManager = GameObject.Find("Instantiator").GetComponent<Instantiator>();
     }
 
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviourPun
     {
         gameHud.CallEndScreen();
     }
+
     public Vector3 GetFinishLinePosition()
     {
         return finishLine.position;

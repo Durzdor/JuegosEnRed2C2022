@@ -1,7 +1,7 @@
 TODO
 
 Maxi
-- Que pasa cuando se desconecta alguien
+- Guardar Referencias de jugadores cuando entran
 - Leer de manera correcta las posiciones de los jugadores
 - 
 -
@@ -22,7 +22,7 @@ Fer
 Bonus 
 
 cuando termina que haga los metodos correctos
-que se vea lindo (acomodar canvas para 800x600)
+- 
 que no se vea el detras de escenas
 
 antes de entregar

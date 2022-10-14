@@ -77,7 +77,7 @@ public class NetManager : MonoBehaviourPunCallbacks
         status.text = "Joined Room Successfully.";
         roomGo.SetActive(true);
         lobbyGo.SetActive(false);
-        CheckForUniqueName();
+        CheckUniqueName();
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -91,11 +91,7 @@ public class NetManager : MonoBehaviourPunCallbacks
         OnRoomLeftSuccessfully?.Invoke();
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-    }
-
-    private void CheckForUniqueName()
+    private void CheckUniqueName()
     {
         var uniqueName = true;
         foreach (var player in PhotonNetwork.PlayerListOthers)
@@ -108,5 +104,12 @@ public class NetManager : MonoBehaviourPunCallbacks
         }
 
         if (uniqueName) OnRoomJoinedSuccessfully?.Invoke();
+    }
+
+    public void Disconnect()
+    {
+        PhotonNetwork.Disconnect();
+        PhotonNetwork.LoadLevel(0);
+        GameManager.Instance.MakeSingleton();
     }
 }

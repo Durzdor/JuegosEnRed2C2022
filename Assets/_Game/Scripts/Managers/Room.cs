@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Room : MonoBehaviour
+public class Room : MonoBehaviourPun
 {
     [SerializeField] private NetManager netManager;
     [SerializeField] private List<TextMeshProUGUI> playerNameTexts;
@@ -15,21 +15,17 @@ public class Room : MonoBehaviour
     [SerializeField] private GameObject roomTimerGo;
     [SerializeField] private Button startGameButton;
     [SerializeField] private GameObject connectionGo;
-    [SerializeField] private GameObject roomGo;
     [SerializeField] private GameObject gameHudGo;
-
 
     [Header("Game Start Settings")] [Space(5)] [SerializeField]
     private int autoStartTimer = 5;
 
     [SerializeField] private int minRequiredPlayers = 3;
 
-    private PhotonView _photonView;
     private GameHUD _gameHUD;
 
     private void Awake()
     {
-        _photonView = GetComponent<PhotonView>();
         _gameHUD = GetComponent<GameHUD>();
         netManager.OnRoomJoinedSuccessfully += SetupLobby;
         netManager.OnRoomLeftSuccessfully += UpdateLobby;
@@ -43,8 +39,8 @@ public class Room : MonoBehaviour
 
     private void UpdateLobby()
     {
-        _photonView.RPC("UpdatePlayerNames", RpcTarget.All);
-        _photonView.RPC("StartGameCheck", PhotonNetwork.MasterClient);
+        photonView.RPC("UpdatePlayerNames", RpcTarget.All);
+        photonView.RPC("StartGameCheck", PhotonNetwork.MasterClient);
     }
 
     [PunRPC]
@@ -62,25 +58,25 @@ public class Room : MonoBehaviour
         startGameButton.gameObject.SetActive(PhotonNetwork.CurrentRoom.PlayerCount >= minRequiredPlayers);
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
-            _photonView.RPC("UpdateTimer", RpcTarget.All, autoStartTimer);
-            _photonView.RPC("UpdateTimerActive", RpcTarget.All, true);
+            photonView.RPC("UpdateTimer", RpcTarget.All, autoStartTimer);
+            photonView.RPC("UpdateTimerActive", RpcTarget.All, true);
             StartCoroutine(Countdown(autoStartTimer));
         }
         else
         {
             StopAllCoroutines();
-            _photonView.RPC("UpdateTimerActive", RpcTarget.All, false);
+            photonView.RPC("UpdateTimerActive", RpcTarget.All, false);
         }
     }
 
     [PunRPC]
     public void LoadLevel()
     {
-        if (_photonView.IsMine) _photonView.RPC("LoadLevel", RpcTarget.Others);
+        if (photonView.IsMine) photonView.RPC("LoadLevel", RpcTarget.Others);
         PhotonNetwork.CurrentRoom.IsOpen = false;
         connectionGo.SetActive(false);
-        gameHudGo.SetActive(true);
         _gameHUD.StartHUD();
+        gameHudGo.SetActive(true);
         GameManager.Instance.StartGame();
     }
 
@@ -91,7 +87,7 @@ public class Room : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             count--;
-            _photonView.RPC("UpdateTimer", RpcTarget.All, count);
+            photonView.RPC("UpdateTimer", RpcTarget.All, count);
         }
 
         LoadLevel();
