@@ -9,13 +9,21 @@ public class FrogCharacterController : MonoBehaviourPun
     FrogCharacterViewer view;
     bool moving = false;
     float jumpTime;
+    Vector3 finishLinePos;
     [SerializeField] float jumpSpeedRatio = .05f;
+
+    private float _finishLineDistance;
+    public float FinishLineDistance => _finishLineDistance;
 
     void Awake()
     {
         model = GetComponent<FrogCharacterModel>();
         if (!photonView.IsMine)
             Destroy(this);
+    }
+    void Start()
+    {
+        finishLinePos = GameManager.Instance.GetFinishLinePosition();
     }
     void Update()
     {
@@ -38,6 +46,8 @@ public class FrogCharacterController : MonoBehaviourPun
             jumpTime += jumpSpeedRatio;
             model.JumpMove(jumpTime);
         }
+
+        _finishLineDistance = Vector3.Distance(transform.position, finishLinePos);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -49,7 +59,7 @@ public class FrogCharacterController : MonoBehaviourPun
                 photonView.RPC("UpdateParent", RpcTarget.Others, collision.gameObject.name, false);
                 break;
             case (int)AllLayers.Alligator:
-            //case (int)AllLayers.Water:
+            case (int)AllLayers.Water:
                 transform.position = GameManager.Instance.RespawnPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
                 break;
             case (int)AllLayers.FinishLine:

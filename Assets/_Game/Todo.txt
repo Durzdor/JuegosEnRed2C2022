@@ -11,13 +11,13 @@ si hay algun problema con canvas asignarle la camara amano - lista .find
 
 Fer
 - Cuando termina el tiempo el que esta mas lejos gana
-- Checkear distancias en update para poder mostrarlo en la tabla de pos
-- sacar poder caminar por agua Frogcharactercontroller
+-
+-
 - agregar prefabs a resources y que instancie esos
 - piraña para cocodrilo
-- medir distancias entre troncos
-- agregar segundo tronco al principio que vaya mas rapido
-- cambiar color al final y principio
+-
+-
+-
 
 Bonus 
 
