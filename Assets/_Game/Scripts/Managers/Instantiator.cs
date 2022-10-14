@@ -13,7 +13,7 @@ public class Instantiator : MonoBehaviour
         GameObject playerObject;
         GameObject playerCamera;
 
-        playerObject = PhotonNetwork.Instantiate("PlayerObject", playersSpawnPoints[player - 1].position, Quaternion.identity);
+        playerObject = PhotonNetwork.Instantiate("Player" + player + "Object", playersSpawnPoints[player - 1].position, Quaternion.identity);
         playerCamera = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity);
         playerCamera.GetComponent<CameraController>().SetTarget(playerObject.transform);
 

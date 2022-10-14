@@ -49,7 +49,10 @@ public class GameHUD : MonoBehaviour
         _photonView.RPC("UpdateTableNames", RpcTarget.All);
         _photonView.RPC("UpdateTableImages", RpcTarget.All);
     }
-
+    public void CallEndScreen()
+    {
+        _photonView.RPC("EndScreenPopUp", RpcTarget.All, true);
+    }
     private void StartTimer(int sec, int min)
     {
         _currSec = sec;
@@ -74,7 +77,7 @@ public class GameHUD : MonoBehaviour
             }
             else
             {
-                if (_currSec <= 0) _photonView.RPC("EndScreenPopUp", RpcTarget.All, true);
+                if (_currSec <= 0) CallEndScreen();
             }
 
             _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
