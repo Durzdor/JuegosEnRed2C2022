@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviourPun
     public List<string> PlayerReferences { get; private set; }
     private List<float> _playerTableDistances;
     public List<int> PlayerTablePositions { get; private set; }
+    private List<GameObject> _frogObj = new List<GameObject>();
 
     public static GameManager Instance;
 
@@ -40,21 +41,21 @@ public class GameManager : MonoBehaviourPun
         PlayerTablePositions = new List<int>();
         MakeSingleton();
         instanceManager = GameObject.Find("Instantiator").GetComponent<Instantiator>();
-        netManager.OnPlayerConnect += delegate(int i) { SpawnPlayerRef(i); };
+        //netManager.OnPlayerConnect += SpawnPlayerObject;
     }
 
     public void StartGame()
     {
-        if (photonView.IsMine)
-            instanceManager.SpawnAlligators(alligatorsQuantity);
-
-        // var playerCamera = instanceManager.SpawnPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
-        //
-        // gameplayCanvas = GameObject.Find("GameplayCanvas").GetComponent<Canvas>();
-        // gameplayCanvas.worldCamera = playerCamera;
-        // gameplayCanvas.planeDistance = 1;
+        if (!photonView.IsMine) return;
+        instanceManager.SpawnAlligators(alligatorsQuantity);
 
         // PlayerPositions();
+
+        for (var i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            var target = PhotonNetwork.PlayerList[i];
+            photonView.RPC("SpawnPlayerObject", target, i + 1);
+        }
     }
 
     public Vector3 RespawnPlayer(int player)
@@ -72,11 +73,13 @@ public class GameManager : MonoBehaviourPun
         return finishLine.position;
     }
 
-    private void SpawnPlayerRef(int playerCount)
+    [PunRPC]
+    private void SpawnPlayerObject(int playerCount)
     {
         var frogCont = instanceManager.SpawnPlayerRef(playerCount);
         photonView.RPC("PlayerReferenceModify", RpcTarget.MasterClient, frogCont.photonView.Owner.NickName,
             frogCont.FinishLineDistance);
+
         //PlayerReferenceModify(frogCont.photonView.Owner.NickName, frogCont.FinishLineDistance);
     }
 
