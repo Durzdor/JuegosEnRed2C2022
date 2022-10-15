@@ -7,7 +7,7 @@ using TMPro;
 public class GameManager : MonoBehaviourPun
 {
     private Instantiator instanceManager;
-    private Canvas gameplayCanvas;
+    private float playerDistance;
     [Range(1, 7)] [SerializeField] private int alligatorsQuantity;
     [SerializeField] private Transform finishLine;
     [SerializeField] private GameHUD gameHud;
@@ -37,11 +37,10 @@ public class GameManager : MonoBehaviourPun
     {
         PlayerNames = new List<string>();
         _playerTableDistances = new List<float>();
-        PlayerTablePositions = new List<int>();
+        //PlayerTablePositions = new List<int>();
         MakeSingleton();
         instanceManager = GameObject.Find("Instantiator").GetComponent<Instantiator>();
     }
-
     public void StartGame()
     {
         if (!photonView.IsMine) return;
@@ -53,7 +52,7 @@ public class GameManager : MonoBehaviourPun
             photonView.RPC("SpawnPlayerObject", target, i + 1);
         }
 
-        //UpdateALL();
+        UpdateALL();
     }
 
     public Vector3 RespawnPlayer(int player)
@@ -76,7 +75,7 @@ public class GameManager : MonoBehaviourPun
     {
         var frogCont = instanceManager.SpawnPlayerRef(playerCount);
         photonView.RPC("PlayerReferenceModify", RpcTarget.MasterClient, frogCont.photonView.Owner.NickName,
-            frogCont.FinishLineDistance);
+            frogCont._finishLineDistance);
     }
 
     [PunRPC]
@@ -86,7 +85,12 @@ public class GameManager : MonoBehaviourPun
         // Agrega todas las ranas a una lista de pos
         _playerTableDistances.Add(playerDistance);
     }
-
+    [PunRPC]
+    private void UpdatePlayerDistances(string player, float distance)
+    {
+        int index = PlayerNames.IndexOf(player);
+        _playerTableDistances[index] = distance;
+    }
     private void PlayerPositions()
     {
         // Guarda los valores de distancia de las ranas en otro array
@@ -102,11 +106,7 @@ public class GameManager : MonoBehaviourPun
                 if (dist == _playerTableDistances[i])
                     playerNumberPosition.Add(i);
         // Pongo todos los valores en la original
-        // for (var i = 0; i < playerNumberPosition.Count; i++)
-        // {
-        //     PlayerTablePositions[i] = playerNumberPosition[i];
-        // }
-        PlayerTablePositions = playerNumberPosition;
+        PlayerTablePositions = new List<int>(playerNumberPosition);
     }
 
     private void PlayerImageUpdate()
@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviourPun
     [PunRPC]
     public void UpdateALL()
     {
+        if (PlayerNames.Count != PhotonNetwork.PlayerList.Length) return;
         gameHud.gameObject.GetPhotonView().RPC("UpdateTableVisibility", RpcTarget.All);
         PlayerPositions();
         PlayerNamesUpdate();

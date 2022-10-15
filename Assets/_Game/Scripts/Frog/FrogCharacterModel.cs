@@ -11,12 +11,13 @@ public class FrogCharacterModel : MonoBehaviourPun
     private Vector3 endRC;
     public Vector3 endPos;
     private Vector3 finishLinePos;
-    private float _finishLineDistance;
-    public float FinishLineDistance => (float)Math.Round((decimal)_finishLineDistance, 2);
+    public float _finishLineDistance;
+    public float FinishLineDistance => _finishLineDistance;//(float)Math.Round((decimal)_finishLineDistance, 2);
 
-    private void Start()
+    private void Awake()
     {
         finishLinePos = GameManager.Instance.GetFinishLinePosition();
+        _finishLineDistance = Vector3.Distance(transform.position, finishLinePos);
     }
 
     public void JumpMove(float fracComplete)
@@ -49,6 +50,7 @@ public class FrogCharacterModel : MonoBehaviourPun
     {
         transform.position = newPos;
         _finishLineDistance = Vector3.Distance(transform.position, finishLinePos);
+        GameManager.Instance.photonView.RPC("UpdatePlayerDistances", RpcTarget.MasterClient, photonView.Owner.NickName, _finishLineDistance);
     }
 
     [PunRPC]

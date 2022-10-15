@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameHUD : MonoBehaviour
+public class GameHUD : MonoBehaviourPun
 {
     [Header("General")] [Space(5)] [SerializeField]
     private List<Sprite> imageReferenceList;
@@ -79,7 +79,7 @@ public class GameHUD : MonoBehaviour
             }
 
             _photonView.RPC("UpdateTimer", RpcTarget.All, _currMin, _currSec);
-            //GameManager.Instance.photonView.RPC("UpdateALL", RpcTarget.MasterClient);
+            GameManager.Instance.photonView.RPC("UpdateALL", RpcTarget.MasterClient);
         }
     }
 

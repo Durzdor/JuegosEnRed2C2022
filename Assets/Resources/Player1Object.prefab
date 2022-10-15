@@ -270,6 +270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPos: {x: 0, y: 0.7, z: -13}
+  _finishLineDistance: 0
 --- !u!114 &54165893813302927
 MonoBehaviour:
   m_ObjectHideFlags: 0
